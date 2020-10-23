@@ -103,3 +103,18 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # config for anaconda
 export PATH=/anaconda3/bin:$PATH
+# config for fastboot 
+export PATH=~/.local/bin:$PATH
+
+#function for find and insert bib reference of paper
+doi2bib ()
+{
+    echo >> "$2";
+    curl -s "http://api.crossref.org/works/$1/transform/application/x-bibtex" >> "$2";
+    echo >> "$2"
+}
+#function for find bib from pmid to bib
+pmid2bib()
+{
+    curl -s "http://www.ncbi.nlm.nih.gov/pubmed/$1?report=xml&format=raw" | sed -e 's/&gt;/>/g' -e 's/&lt;/</g' | med2xml | xml2bib -nb -b >> "$2"
+}
